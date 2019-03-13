@@ -7,14 +7,30 @@ Zotero.Redownloader = {
     },
 
     async redownload(item) {
-        // this preserves filename
+        // we preserve filename
         const absolutePath = item.getFilePath()
+        if (absolutePath == false) {
+            // something wrong with path, broken or N/A
+            // https://github.com/zotero/zotero/blob/c735423996bdbba202b362233c8b6c22e3ca31fd/chrome/content/zotero/xpcom/data/item.js#L2165
+            return;
+        }
         const url = item.getField('url')
-        Zotero.debug('[Redownloader] Going to download ' + url + ' as ' + absolutePath)
+        Zotero.debug(`[Redownloader] Going to download ${url} as ${absolutePath}`)
 
         let result = await fetch(url)
         let buf = new DataView(await result.arrayBuffer()) // arrayBuffer type
-        await OS.File.writeAtomic(absolutePath, buf, { tmpPath: absolutePath + '.tmp', noOverwrite: true })
+
+        try {
+            await OS.File.makeDir(OS.Path.dirname(absolutePath))
+        } catch (err) {
+            // dir already exist
+        }
+
+        // we cannot use OS.Constants.Path.tmpDir
+        // since it can be cross-device
+        // const tmpPath = OS.Path.join(OS.Constants.Path.tmpDir, `redownloader_${item.id}_${OS.Path.basename(absolutePath)}`)
+        const tmpPath = absolutePath + '.tmp'
+        await OS.File.writeAtomic(absolutePath, buf, { tmpPath: tmpPath, noOverwrite: true })
 
         item.relinkAttachmentFile(absolutePath)
         item.saveTx()
@@ -40,10 +56,8 @@ Zotero.Redownloader = {
         s.addCondition("deleted", "false")
         s.addCondition("url", "contains", "http")
         var ids = await s.search()
-        // var ids = yield s.search()
         Zotero.debug(`[Redownloader] ${ids.length} attachments with urls`)
         for (let id of ids) {
-            Zotero.debug(`[Redownloader] Checking ` + id)
             let item = await Zotero.Items.getAsync(id)
             await item.loadAllData()
             if (!item.isLinkedURL && !(await item.getFilePathAsync())) {

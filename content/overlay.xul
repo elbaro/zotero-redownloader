@@ -6,7 +6,7 @@
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <menupopup id="menu_ToolsPopup">
-    <menuitem label="&zotero-redownloader.name;" oncommand="Zotero.Redownloader.scan().catch((err)=>Zotero.debug('[Redownloader] error: ', err))"/>
+    <menuitem label="&zotero-redownloader.name;" oncommand="Zotero.Redownloader.scan().catch((err)=>{Zotero.debug('[Redownloader] error: '); Zotero.debug(err);})"/>
   </menupopup>
 
   <!-- Include the main extension logic -->
