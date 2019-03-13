@@ -1,0 +1,33 @@
+{
+  "name": "zotero-redownloader",
+  "version": "0.0.1",
+  "description": "Zotero Redownloader",
+  "main": "index.js",
+  "scripts": {
+    "build": "zip -r zotero-redownloader.xpi chrome.manifest content locale skin install.rdf"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elbaro/zotero-redownloader.git"
+  },
+  "author": {
+    "name": "elbaro",
+    "email": "elbaro@users.noreply.github.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elbaro/zotero-redownloader/issues"
+  },
+  "homepage": "https://github.com/elbaro/zotero-redownloader#readme",
+  "dependencies": {
+    "tmp": "0.0.33"
+  },
+  "xpi": {
+    "name": "Zotero Redownloader",
+    "updateLink": "https://github.com/elbaro/zotero-redownloader/releases/download/v{version}/zotero-redownloader-{version}.xpi",
+    "releaseURL": "https://github.com/elbaro/zotero-redownloader/releases/download/release/"
+  },
+  "devDependencies": {
+    "@types/node": "^11.11.3"
+  }
+}

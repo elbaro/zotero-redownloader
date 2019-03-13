@@ -1,0 +1,5 @@
+content	zotero-redownloader				content/
+locale	zotero-redownloader	en-US		locale/en-US/
+skin	zotero-redownloader	default		skin/
+
+overlay	chrome://zotero/content/zoteroPane.xul	chrome://zotero-redownloader/content/overlay.xul

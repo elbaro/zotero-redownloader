@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://zotero-redownloader/skin/overlay.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://zotero-redownloader/locale/zotero-redownloader.dtd">
+
+<overlay id="zotero-redownloader-overlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <menupopup id="menu_ToolsPopup">
+    <menuitem label="&zotero-redownloader.name;" oncommand="Zotero.Redownloader.scan().catch((err)=>Zotero.debug('[Redownloader] error: ', err))"/>
+  </menupopup>
+
+  <!-- Include the main extension logic -->
+  <script src="chrome://zotero/content/include.js"/>
+  <script src="chrome://zotero-redownloader/content/Redownloader.js"/>
+</overlay>
